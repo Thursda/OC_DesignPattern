@@ -24,4 +24,8 @@
     CGContextAddLineToPoint(context, x, y);
 }
 
+- (id)copyWithZone:(NSZone *)zone{
+    Vertex *vertextCopy = [[[self class] allocWithZone:zone] initWithLocation:_location];
+    return vertextCopy;
+}
 @end

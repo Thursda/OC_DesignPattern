@@ -11,8 +11,10 @@
 @property (nonatomic, strong) NSMutableArray<id<Mark>> *children;
 @end
 
-
 @implementation Stroke
+
+@dynamic location;
+
 - (instancetype)init{
     self = [super init];
     if (self) {
@@ -33,8 +35,10 @@
     }
 }
 - (void)removeMark:(id<Mark>)mark{
-    if (mark) {
+    if ([self.children containsObject:mark]) {
         [self.children removeObject:mark];
+    }else{
+        [self.children makeObjectsPerformSelector:@selector(removeMark:) withObject:mark];
     }
 }
 
@@ -44,9 +48,15 @@
     }
     return nil;
 }
-
+- (CGPoint)location{
+    return [self.children firstObject].location;
+}
 - (id<Mark>)lastChild{
     return [self.children lastObject];
+}
+
+- (NSUInteger)count{
+    return [self.children count];
 }
 
 -(void)drawInContext:(CGContextRef)context{
@@ -60,6 +70,17 @@
     CGContextStrokePath(context);
 }
 
+
+- (id)copyWithZone:(NSZone *)zone{
+    Stroke *strockCopy = [[[self class] allocWithZone:zone] init];
+    [strockCopy setColor:[UIColor colorWithCGColor:[_color CGColor]]];
+    [strockCopy setSize:_size];
+    for (id <Mark> child in _children) {
+        id<Mark> childCopy = [child copy];
+        [strockCopy addMark:childCopy];
+    }
+    return strockCopy;
+}
 
 
 @end

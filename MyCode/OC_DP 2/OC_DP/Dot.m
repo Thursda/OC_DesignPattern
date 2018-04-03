@@ -22,5 +22,10 @@
     CGContextFillEllipseInRect(context, frame);
 }
 
-
+- (id)copyWithZone:(NSZone *)zone{
+    Dot *dotCopy = [[[self class] allocWithZone:zone] initWithLocation:self.location];
+    dotCopy.color = [UIColor colorWithCGColor:self.color.CGColor];
+    dotCopy.size = _size;
+    return dotCopy;
+}
 @end

@@ -10,7 +10,7 @@
 #import <UIKit/UIKit.h>
 #import "Mark.h"
 
-@interface Vertex : NSObject <Mark>
+@interface Vertex : NSObject <Mark, NSCopying>
 
 @property (nonatomic, assign) CGPoint location;
 

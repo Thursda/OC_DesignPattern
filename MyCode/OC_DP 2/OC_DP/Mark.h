@@ -28,6 +28,8 @@
 
 - (void)drawInContext:(CGContextRef)context;
 
+- (id)copy;
+
 @end
 
 #endif /* Mark_h */
